@@ -1,19 +1,39 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-
+import PkIndexView from '../views/pk/PkIndexView'
+import RecordIndexView from '../views/record/RecordIndexView'
+import RanklistIndexView from '../views/ranklist/RanklistIndexView'
+import UserBotIndexView from '../views/userBot/UserBotIndexView'
+import NotFound from "../views/error/NotFound";
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path : "/",
+    name : "home",
+    redirect: "/pk/",
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path : "/pk/",
+    name : "pk_index",
+    component : PkIndexView,
+  },
+  {
+    path : "/record/",
+    name : "record_index",
+    component : RecordIndexView,
+  },
+  {
+    path : "/ranklist/",
+    name : "ranklist_index",
+    component : RanklistIndexView,
+  },
+  {
+    path : "/user/bot/",
+    name : "user_bot_index",
+    component : UserBotIndexView,
+  },
+  {
+    path : "/404/",
+    name : "not_found_index",
+    component : NotFound,
   }
 ]
 
