@@ -30,6 +30,5 @@ div.gamemap{
     /* background-color: aquamarine; */
     display: flex;/*进行flex布局*/
     justify-content: center;
-    align-items: center;
 }
 </style>
