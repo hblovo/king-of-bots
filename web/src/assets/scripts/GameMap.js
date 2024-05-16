@@ -18,6 +18,8 @@ export class GameMap extends GameObject{
             new Snake({id:0,color:"#4876EC",r:this.rows-2,c:1},this),
             new Snake({id:1,color:"#F94848",r:1,c:this.cols-2},this),
         ];
+
+        
     }
     check_connectivity(g, sx, sy, tx, ty) {
         if (sx == tx && sy == ty) return true;
