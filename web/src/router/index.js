@@ -4,6 +4,7 @@ import RecordIndexView from '../views/record/RecordIndexView'
 import RanklistIndexView from '../views/ranklist/RanklistIndexView'
 import UserBotIndexView from '../views/userBot/UserBotIndexView'
 import NotFound from "../views/error/NotFound";
+import GameOver from "../views/GameOver";
 const routes = [
   {
     path : "/",
@@ -34,6 +35,11 @@ const routes = [
     path : "/404/",
     name : "not_found_index",
     component : NotFound,
+  },
+  {
+    path:"/pk/gameover/",
+    name:"GameOver_index",
+    component:GameOver,
   }
 ]
 

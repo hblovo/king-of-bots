@@ -19,7 +19,7 @@ export class GameMap extends GameObject{
             new Snake({id:1,color:"#F94848",r:1,c:this.cols-2},this),
         ];
 
-        
+        this.winner = null;
     }
     check_connectivity(g, sx, sy, tx, ty) {
         if (sx == tx && sy == ty) return true;
@@ -150,6 +150,11 @@ export class GameMap extends GameObject{
             this.next_step();   
         }
         this.render();
+        if(this.winner !== null){
+            //游戏结束，跳转至/pk/gameover/
+            
+            
+        }
     }
     render(){
         const color_even = '#AAD751';
