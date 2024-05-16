@@ -122,7 +122,7 @@ export class Snake extends GameObject{
         if(this.status === "die"){
             ctx.fillStyle = "white";
             this.gamemap.gameover = this.id ^ 1 + 1;
-            window.location.href = '/pk/gameover/';
+            //window.location.href = '/pk/gameover/';
         }
         for (const cell of this.cells) {
             ctx.beginPath();
