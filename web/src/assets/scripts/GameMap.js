@@ -109,7 +109,7 @@ export class GameMap extends GameObject{
     }
     check_ready(){
         for(const snake of this.snakes){
-            if(snake.state !== "idle" || snake.direction === -1){
+            if(snake.status !== "idle" || snake.direction === -1){
                 return false;
             }
         }
@@ -121,7 +121,7 @@ export class GameMap extends GameObject{
             snake.next_step();
         }
     }
-    
+
     update(){
         this.update_size();
         if(this.check_ready()){
