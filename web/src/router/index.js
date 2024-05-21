@@ -5,6 +5,8 @@ import RanklistIndexView from '../views/ranklist/RanklistIndexView'
 import UserBotIndexView from '../views/userBot/UserBotIndexView'
 import NotFound from "../views/error/NotFound";
 import GameOver from "../views/GameOver";
+import UserAccountLoginView from "../views/user/account/UserAccountLoginView"
+import UserAccountRegisterView from "../views/user/account/UserAccountRegisterView"
 const routes = [
   {
     path : "/",
@@ -32,6 +34,16 @@ const routes = [
     component : UserBotIndexView,
   },
   {
+    path : "/user/account/login/",
+    name : "user_login_index",
+    component : UserAccountLoginView,
+  },
+  {
+    path : "/user/account/register/",
+    name : "user_register_index",
+    component : UserAccountRegisterView,
+  },
+  {
     path : "/404/",
     name : "not_found_index",
     component : NotFound,
@@ -40,6 +52,10 @@ const routes = [
     path:"/pk/gameover/",
     name:"GameOver_index",
     component:GameOver,
+  },
+  {
+    path:"/catchAll(.*)",
+    redirect: "/404/"
   }
 ]
 
