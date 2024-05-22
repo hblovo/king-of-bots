@@ -8,24 +8,51 @@
   
   </template>
   
-  <script>
-  import GameMap from "../components/GameMap.vue"
-  export default {
-        components:{
-          GameMap
+<script>
+import GameMap from "../components/GameMap.vue";
+
+export default {
+  components: {
+    GameMap
+  },
+  mounted() {
+    if (this.$route.path === "/pk/") {
+      this.setupRefreshButton();
+    }
+  },
+  watch: {
+    '$route.path': function(newPath) {
+      if (newPath === '/pk/') {
+        this.setupRefreshButton();
+      } else {
+        this.teardownRefreshButton();
       }
+    }
+  },
+  beforeUnmount() {
+    this.teardownRefreshButton();
+  },
+  methods: {
+    setupRefreshButton() {
+      this.refreshButton = document.getElementById("refresh-button");
+      if (this.refreshButton) {
+        this.refreshButtonClickHandler = this.handleRefreshButtonClick.bind(this);
+        this.refreshButton.addEventListener("click", this.refreshButtonClickHandler);
+      }
+    },
+    teardownRefreshButton() {
+      if (this.refreshButton && this.refreshButtonClickHandler) {
+        this.refreshButton.removeEventListener("click", this.refreshButtonClickHandler);
+      }
+    },
+    handleRefreshButtonClick() {
+      if (this.$route.path === "/pk/") {
+        location.reload();
+      }
+    }
   }
-  document.addEventListener("DOMContentLoaded", function() {
-      // 获取刷新按钮元素
-      var refreshButton = document.getElementById("refresh-button");
-  
-      // 添加点击事件监听器
-      refreshButton.addEventListener("click", function() {
-          // 刷新页面
-          location.reload();
-      });
-  });
-  </script>
+};
+</script>
   
   <style scoped>
   div.playground{
