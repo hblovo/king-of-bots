@@ -13,19 +13,7 @@ export default {
   },
   setup(){
     
-    // $.ajax({
-    //   url:"http://127.0.0.1:3000/user/account/info/",
-    //   type:"get",
-    //   headers:{
-    //     Authorization:"Bearer " + "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwNzczNjQ2MWNlNzM0YWNhYjY0NmY3ZjYyYTlkM2VlOCIsInN1YiI6IjIiLCJpc3MiOiJzZyIsImlhdCI6MTcxNjI5MzE2NSwiZXhwIjoxNzE3NTAyNzY1fQ.DXBcdNLbAep8UBuTyhFcBI15PBLoAxrFGT-22dssE20"
-    //   },
-    //   success(resp){
-    //     console.log(resp);
-    //   },
-    //   error(resp){
-    //     console.log(resp);
-    //   }
-    // });
+    
     // $.ajax({
     //   url:"http://127.0.0.1:3000/user/account/register/",
     //   type:"post",

@@ -1,6 +1,6 @@
 <template>
     <ContentField>
-        对局记录
+        注册
     </ContentField>
 </template>
 <script>
