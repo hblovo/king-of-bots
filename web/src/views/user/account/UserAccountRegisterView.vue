@@ -2,6 +2,7 @@
     <ContentField>
         <div class="row justify-content-center">
             <div class="col-3">
+                <h3 class="custom-title text-center mb-4 ">用户注册</h3>
                 <form @submit.prevent="register">
                     <div class="mb-3">
                     <label for="username" class="form-label">用户名</label>
@@ -74,5 +75,11 @@ export default {
     }
     div.error-message{
         color : red;
+    }
+    .custom-title {
+        font-family: 'Arial', sans-serif;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333; /* 你可以根据需要更改颜色 */
     }
 </style>
