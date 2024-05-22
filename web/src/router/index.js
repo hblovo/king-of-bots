@@ -92,10 +92,36 @@ const router = createRouter({
   routes
 })
 router.beforeEach((to,from,next)=>{
-  if(to.meta.requestAuth && store.state.user.is_login === false){
-    next({name:"user_login_index"});
+  // let jwt_token = localStorage.getItem("jwt_token");
+  // if(jwt_token){
+  //   store.dispatch("getinfo",jwt_token);
+  //   next();
+  // }
+  const jwt_token = localStorage.getItem("jwt_token");
+  if(jwt_token){
+    store.commit('updateToken',jwt_token);
+    store.dispatch('getinfo',{
+      success(){
+        next();
+      },
+      error(){
+        // console.log(store.state.user);
+        store.dispatch('logout');
+        alert("token无效,请重新登录！");
+        next({name:"user_login_index"});
+      }
+    })
   }else{
-    next();
+    if(to.meta.requestAuth && store.state.user.is_login === false){
+      next({name:"user_login_index"});
+    }else{
+      next();
+    }
   }
+  // if(to.meta.requestAuth && store.state.user.is_login === false){
+  //   next({name:"user_login_index"});
+  // }else{
+  //   next();
+  // }
 })
 export default router

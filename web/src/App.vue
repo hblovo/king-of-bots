@@ -35,7 +35,9 @@ export default {
 </script>
 <style>
 body{
-  background-image : url("~@/assets/images/background.png");
+  /* background-image : url("~@/assets/images/background.png"); */
+  background-image:url("~@/assets/images/preview.jpg");
   background-size: cover;
+  background-repeat: no-repeat;
 }
 </style>
