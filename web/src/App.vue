@@ -6,30 +6,32 @@
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap"
 import NavBar from "./components/NavBar.vue"
-//import $ from "jquery"
+// import $ from "jquery"
+//import { useStore } from "vuex"
 export default {
   components:{
     NavBar
   },
   setup(){
-    
-    
-    // $.ajax({
-    //   url:"http://127.0.0.1:3000/user/account/register/",
-    //   type:"post",
-    //   data:{
-    //     username : "hblTuT23",
-    //     password : "123456",
-    //     confirmed_password: "123456",
-    //   },
-    //   success(resp){
-    //     console.log(resp);
-    //   },
-    //   error(resp){
-    //     console.log(resp);
-    //   }
-    // })
-    
+    //const store = useStore();
+        // $.ajax({
+        //     url: "http://127.0.0.1:3000/user/bot/add/",
+        //     type: "post",
+        //     data: {
+        //         title: "Bot的标题",
+        //         description : "Bot的描述",
+        //         content: "Bot的代码",
+        //     },
+        //     headers: {
+        //         Authorization: "Bearer " + store.state.user.token,
+        //     },
+        //     success(resp) {
+        //         console.log(resp);
+        //     },
+        //     error(resp) {
+        //         console.log(resp);
+        //     }
+        // })
   }
 }
 </script>

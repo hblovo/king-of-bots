@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ContentField from '../../components/ContentField'
+import ContentField from '../../../components/ContentField'
 import $ from 'jquery'
 import { useStore } from 'vuex';
 
