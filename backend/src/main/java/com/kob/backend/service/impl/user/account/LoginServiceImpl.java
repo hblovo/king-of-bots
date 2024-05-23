@@ -42,7 +42,7 @@ public class LoginServiceImpl implements LoginService {
             map.put("token", jwt);
             return map;
         } catch (Exception e) {
-            map.put("error_message", "账号不存在，请先注册一个账号");
+            map.put("error_message", "用户名或密码错误");
             return map;
         }
     }

@@ -20,6 +20,6 @@ public class AddController {
 
     @PostMapping("/user/bot/add/")
     public Map<String,String> addBot(@RequestParam Map<String,String>data){
-        return addService.add(data);
+        return addService.addBot(data);
     }
 }

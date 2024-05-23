@@ -39,7 +39,7 @@ const routes = [
     component : RanklistIndexView,
   },
   {
-    path : "/user/bot/add/",
+    path : "/user/bot/",
     name : "user_bot_index",
     component : UserBotIndexView,
     meta:{
