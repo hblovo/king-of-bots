@@ -72,12 +72,47 @@
                                     <td>{{bot.description}}</td>
                                     <td>{{bot.createtime}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-secondary" style="margin-right: 20px;">修改</button>
-                                        <!-- data-bs-toggle="modal" data-bs-target="#deleteBot" -->
-                                        <!-- @click="remove_bot(bot)" -->
+                                        <button type="button" class="btn btn-secondary" style="margin-right: 10px;" data-bs-toggle="modal" :data-bs-target="'#update-bot-modal-' + bot.id">修改</button><!-- @click="remove_bot(bot)" -->
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" @click="select_bot(bot)" data-bs-target="#deleteBot">
                                             删除
                                         </button>
+                                        <!-- Modal update-->
+                                            <div class="modal fade" :id="'update-bot-modal-' + bot.id" tabindex="-1">
+                                                <div class="modal-dialog modal-xl">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5 w-100 text-center" id="addBotLabel">
+                                                                <i class="bi bi-robot"></i> 修改你的Bot
+                                                            </h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <!-- Forms 表单-->
+                                                            <div class="mb-3">
+                                                                <label for="add-bot-title" class="form-label">Bot名称</label>
+                                                                <!-- <div class="error-message">{{botadd.error_message}}</div> -->
+                                                                <input v-model="bot.title" type="text" class="form-control" id="add-bot-title" placeholder="title">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="add-bot-description" class="form-label">Bot简介</label>
+                                                                <!-- <div class="error-message">{{ botadd.error_message }}</div> -->
+                                                                <input v-model="bot.description" type="text" class="form-control" id="add-bot-description" placeholder="">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="add-bot-code" class="form-label">Bot代码</label>
+                                                                <textarea v-model="bot.content" class="form-control" id="add-bot-code" placeholder="" rows="15"></textarea>
+                                                            </div>
+                                                            <!-- Forms 表单-->
+                                                        </div>
+                                                        <div class="modal-footer d-flex justify-content-center">
+                                                            <div class="error-message">{{ botadd.error_message }}</div>
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-right: 15px;">取消</button>
+                                                            <button type="button" class="btn btn-primary" @click="update_bot(bot)">修改</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal -->
                                     </td>
                                 </tr>
                             </tbody>
@@ -95,7 +130,7 @@
                     <h4 class="modal-title">提示</h4>
                 </div>
                 <div class="modal-body">
-                    <p>您确认要删除该条信息吗？</p>
+                    <p>您确认要删除该Bot吗？</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" @click="closeModal">取消</button>
@@ -105,6 +140,8 @@
         </div>
     </div>
     <!-- 模态框   信息删除确认 -->
+
+
 </template>
 
 <script>
@@ -118,6 +155,7 @@ export default {
         //刷新列表
         let bots = ref([]);
         let selectBot = ref();
+        let title = "";
         const botadd = reactive({
             title:"",
             description:"",
@@ -204,8 +242,34 @@ export default {
 
             })
         }
+        const update_bot = (bot)=>{
+            botadd.error_message = "";
+            $.ajax({
+                url:"http://127.0.0.1:3000/user/bot/update/",
+                type:"post",
+                data:{
+                    bot_id : bot.id,
+                    title : bot.title,
+                    description : bot.description,
+                    content : bot.content,
+                },
+                headers:{
+                    Authorization:"Bearer " + store.state.user.token,
+                },
+                success(resp) {
+                    if (resp.error_message === "success") {
+                        Modal.getInstance('#update-bot-modal-' + bot.id).hide();
+                        refresh_bots();
+                    } else {
+                        botadd.error_message = resp.error_message;
+                    }
+                }
+
+            })
+        }
         const select_bot = (bot)=>{
-            selectBot.value =  bot;
+            selectBot.value = bot;
+            title = bot.title;
         }
         return{
             bots,
@@ -215,6 +279,8 @@ export default {
             closeModal,
             select_bot,
             selectBot,
+            update_bot,
+            title,
         }
     }
 }
