@@ -5,20 +5,27 @@
                 <h3 class="custom-title text-center mb-4 ">用户登录</h3>
                 <form @submit.prevent="login">
                     <div class="mb-3">
-                    <label for="username" class="form-label">用户名</label>
-                    <input v-model = "username" type="text" class="form-control" id="username" placeholder="请输入用户名">
+                        <label for="username" class="form-label">用户名</label>
+                        <div class="input-group">
+                        <div class="input-group-text"><i class="bi bi-person"></i></div>
+                        <input v-model="username" type="text" class="form-control" id="username" placeholder="请输入用户名">
+                        </div>
                     </div>
                     <div class="mb-3">
-                    <label for="password" class="form-label">密码</label>
-                    <input v-model = "password" type="password" class="form-control" id="password" placeholder="请输入密码">
+                        <label for="password" class="form-label">密码</label>
+                        <div class="input-group">
+                        <div class="input-group-text"><i class="bi bi-lock"></i></div>
+                        <input v-model="password" type="password" class="form-control" id="password" placeholder="请输入密码">
+                        </div>
                     </div>
-                    <div class = "error-message">{{error_message}}</div>
+                    <div class="error-message">{{ error_message }}</div>
                     <button type="submit" class="btn btn-primary justify-content-center">提交</button>
                 </form>
             </div>
         </div>
     </ContentField>
 </template>
+
 <script>
 import ContentField from "../../../components/ContentField.vue"
 import {useStore} from "vuex"
@@ -82,4 +89,9 @@ div.error-message{
         font-weight: bold;
         color: #333; /* 你可以根据需要更改颜色 */
     }
+.myser{
+    background: url('../../../assets/images/user.jpg') no-repeat;
+    width: 100%;
+    padding: left 20px;;
+}
 </style>
