@@ -74,7 +74,8 @@
                                     <td>
                                         <button type="button" class="btn btn-secondary" style="margin-right: 20px;">修改</button>
                                         <!-- data-bs-toggle="modal" data-bs-target="#deleteBot" -->
-                                        <button type="button" class="btn btn-danger" @click="remove_bot(bot)">
+                                        <!-- @click="remove_bot(bot)" -->
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" @click="select_bot(bot)" data-bs-target="#deleteBot">
                                             删除
                                         </button>
                                     </td>
@@ -98,7 +99,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" @click="closeModal">取消</button>
-                    <button type="button" class="btn btn-primary" @click="remove_bot(bot)">确认</button>
+                    <button type="button" class="btn btn-primary" @click="remove_bot()">确认</button>
                 </div>
             </div>
         </div>
@@ -116,6 +117,7 @@ export default {
         const store = useStore();
         //刷新列表
         let bots = ref([]);
+        let selectBot = ref();
         const botadd = reactive({
             title:"",
             description:"",
@@ -182,12 +184,12 @@ export default {
 
             })
         }
-        const remove_bot = (bot)=>{
+        const remove_bot = ()=>{
             $.ajax({
                 url:"http://127.0.0.1:3000/user/bot/remove/",
                 type:"post",
                 data:{
-                    bot_id : bot.id
+                    bot_id : selectBot.value.id
                 },
                 headers:{
                     Authorization:"Bearer " + store.state.user.token,
@@ -195,11 +197,15 @@ export default {
                 success(resp) {
                     console.log(resp);
                     if (resp.error_message === "Success") {
+                        Modal.getInstance("#deleteBot").hide();
                         refresh_bots();
                     } 
                 }
 
             })
+        }
+        const select_bot = (bot)=>{
+            selectBot.value =  bot;
         }
         return{
             bots,
@@ -207,6 +213,8 @@ export default {
             add_bot,
             remove_bot,
             closeModal,
+            select_bot,
+            selectBot,
         }
     }
 }
