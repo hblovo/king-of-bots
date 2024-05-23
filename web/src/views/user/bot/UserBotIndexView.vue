@@ -72,7 +72,7 @@
                                     <td>{{bot.description}}</td>
                                     <td>{{bot.createtime}}</td>
                                     <td>
-                                        <button type="button" class="btn btn-secondary" style="margin-right: 10px;" data-bs-toggle="modal" :data-bs-target="'#update-bot-modal-' + bot.id">修改</button><!-- @click="remove_bot(bot)" -->
+                                        <button type="button" class="btn btn-primary" style="margin-right: 10px;" data-bs-toggle="modal" :data-bs-target="'#update-bot-modal-' + bot.id">修改</button><!-- @click="remove_bot(bot)" -->
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" @click="select_bot(bot)" data-bs-target="#deleteBot">
                                             删除
                                         </button>
@@ -107,7 +107,7 @@
                                                         <div class="modal-footer d-flex justify-content-center">
                                                             <div class="error-message">{{ botadd.error_message }}</div>
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-right: 15px;">取消</button>
-                                                            <button type="button" class="btn btn-primary" @click="update_bot(bot)">修改</button>
+                                                            <button type="button" class="btn btn-success" @click="update_bot(bot)">保存修改</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -133,8 +133,8 @@
                     <p>您确认要删除该Bot吗？</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" @click="closeModal">取消</button>
-                    <button type="button" class="btn btn-primary" @click="remove_bot()">确认</button>
+                    <button type="button" class="btn btn-secondary" @click="closeModal">取消</button>
+                    <button type="button" class="btn btn-danger" @click="remove_bot()">确认删除</button>
                 </div>
             </div>
         </div>
