@@ -42,7 +42,24 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="add-bot-code" class="form-label">Bot代码</label>
-                                            <textarea v-model="botadd.content" class="form-control" id="add-bot-code" rows="15"></textarea>
+                                            <div>
+                                                <VAceEditor
+                                                    v-model:value="botadd.content"
+                                                    @init="editorInit"
+                                                    theme="textmate"
+                                                    lang="c_cpp"
+                                                    :options="{
+                                                        enableBasicAutocompletion: true, 
+                                                        enableSnippets: true, 
+                                                        enableLiveAutocompletion: true,
+                                                        fontSize: 20, 
+                                                        tabSize: 4, 
+                                                        showPrintMargin: false,
+                                                        highlightActiveLine: true,
+                                                    }"
+                                                    style="height: 300px; font-size: large"
+                                                />
+                                            </div>
                                         </div>
                                         <!-- Forms 表单-->
                                     </div>
@@ -100,7 +117,27 @@
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="add-bot-code" class="form-label">Bot代码</label>
-                                                                <textarea v-model="bot.content" class="form-control" id="add-bot-code" placeholder="" rows="15"></textarea>
+                                                                <!-- <textarea v-model="bot.content" class="form-control" id="add-bot-code" placeholder="" rows="15"></textarea> -->
+                                                                <div>
+                                                                    <VAceEditor
+                                                                        v-model:value="bot.content"
+                                                                        @init="editorInit"
+                                                                        
+                                                                        theme="textmate"
+                                                                        lang="c_cpp"
+                                                                        :options="{
+                                                                            enableBasicAutocompletion: true, 
+                                                                            enableSnippets: true, 
+                                                                            enableLiveAutocompletion: true,
+                                                                            fontSize: 20, 
+                                                                            tabSize: 4, 
+                                                                            showPrintMargin: false,
+                                                                            highlightActiveLine: true,
+                                                                        }"
+                                                                        style="height: 300px; font-size: large"
+                                                                        />
+                                                                </div>
+                                                                
                                                             </div>
                                                             <!-- Forms 表单-->
                                                         </div>
@@ -149,8 +186,18 @@ import {ref,reactive} from 'vue'
 import $ from "jquery"
 import {useStore} from 'vuex'
 import { Modal } from 'bootstrap/dist/js/bootstrap'
+import { VAceEditor } from 'vue3-ace-editor';
+import ace from 'ace-builds';
+import 'ace-builds/src-noconflict/mode-c_cpp';
 export default {
+    components:{
+        VAceEditor,
+    },
     setup(){
+        ace.config.set(
+        "basePath", 
+        "https://cdn.jsdelivr.net/npm/ace-builds@" + require('ace-builds').version + "/src-noconflict/")
+
         const store = useStore();
         //刷新列表
         let bots = ref([]);

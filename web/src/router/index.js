@@ -8,6 +8,7 @@ import GameOver from "../views/GameOver";
 import UserAccountLoginView from "../views/user/account/UserAccountLoginView"
 import UserAccountRegisterView from "../views/user/account/UserAccountRegisterView"
 import store from "../store/index"
+import test from "../views/test"
 const routes = [
   {
     path : "/",
@@ -16,6 +17,11 @@ const routes = [
     meta:{
       requestAuth:true,
     }
+  },
+  {
+    path:"/test/",
+    name:"test",
+    component:test,
   },
   {
     path : "/pk/",
@@ -79,12 +85,13 @@ const routes = [
     }
   },
   {
-    path:"/catchAll(.*)",
-    redirect: "/404/",
-    meta:{
-      requestAuth:false,
+    path: "/:catchAll(.*)", // 匹配所有未匹配的路由
+    redirect: "/404", // 重定向到 /404
+    meta: {
+      requestAuth: false,
     }
-  },
+  }
+  
 ]
 
 const router = createRouter({
