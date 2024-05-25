@@ -2,7 +2,7 @@ import { GameObject } from "./GameObject";
 import { Snake } from "./Snake";
 import { Wall } from "./Wall";
 export class GameMap extends GameObject{
-    constructor(ctx,parent){
+    constructor(ctx,parent,store){
         super();
 
         this.ctx = ctx;
@@ -10,7 +10,8 @@ export class GameMap extends GameObject{
 
         this.rows = 13;
         this.cols = 17;
-
+        this.store = store;
+        this.L = 0;
         this.inner_walls = 20;
         this.walls = [];
 
@@ -37,41 +38,43 @@ export class GameMap extends GameObject{
         return false;
       }
     create_walls(){
-        const g = [];
-        for(let r = 0;r < this.rows;r ++ ){
-            g[r] = [];
-            for(let c = 0;c < this.cols;c ++){
-                g[r][c] = false;
-            }
-        }
-        //给四周加上障碍
-        for(let r = 0;r < this.rows;r++){
-            g[r][0]=g[r][this.cols-1] = true;
-        }
-        for(let c = 0;c < this.cols;c++){
-            g[0][c]=g[this.rows-1][c] = true;
-        }
-        //创建随机障碍物
+        const g = this.store.state.pk.gamemap;
 
-        for(let i = 0;i<this.inner_walls;i++){
-            for(let j = 0;j < 1000;j++){
-                let r = parseInt(Math.random() * this.rows);//[0,1）-> [0,rows)
-                let c = parseInt(Math.random() * this.cols);
-                if(g[r][c] || g[this.rows - 1 - r][this.cols - 1 - c]){
-                    continue;
-                }
-                if(r == this.rows - 2 && c == 1  || r == 1 && c == this.cols - 2) continue;
-                //改为长方形进行中心对称
-                g[r][c] = g[this.rows - 1 - r ][this.cols -1 - c] = true;
-                break;
-            }
-        }
+        //已经改为在后端实现
+        // for(let r = 0;r < this.rows;r ++ ){
+        //     g[r] = [];
+        //     for(let c = 0;c < this.cols;c ++){
+        //         g[r][c] = false;
+        //     }
+        // }
+        // //给四周加上障碍
+        // for(let r = 0;r < this.rows;r++){
+        //     g[r][0]=g[r][this.cols-1] = true;
+        // }
+        // for(let c = 0;c < this.cols;c++){
+        //     g[0][c]=g[this.rows-1][c] = true;
+        // }
+        // //创建随机障碍物
+
+        // for(let i = 0;i<this.inner_walls;i++){
+        //     for(let j = 0;j < 1000;j++){
+        //         let r = parseInt(Math.random() * this.rows);//[0,1）-> [0,rows)
+        //         let c = parseInt(Math.random() * this.cols);
+        //         if(g[r][c] || g[this.rows - 1 - r][this.cols - 1 - c]){
+        //             continue;
+        //         }
+        //         if(r == this.rows - 2 && c == 1  || r == 1 && c == this.cols - 2) continue;
+        //         //改为长方形进行中心对称
+        //         g[r][c] = g[this.rows - 1 - r ][this.cols -1 - c] = true;
+        //         break;
+        //     }
+        // }
 
         //create a new graph
-        const copy_g = JSON.parse(JSON.stringify(g));
-        if(!this.check_connectivity(copy_g,this.rows-2,1,1,this.cols-2)){
-            return false;
-        }
+        //const copy_g = JSON.parse(JSON.stringify(g));
+        // if(!this.check_connectivity(copy_g,this.rows-2,1,1,this.cols-2)){
+        //     return false;
+        // }
         for(let r = 0;r < this.rows;r++){
             for(let c = 0;c < this.cols;c++){
                 if(g[r][c]){

@@ -49,6 +49,8 @@ export default {
                     setTimeout(()=>{
                         store.commit("updateStatus","playing");
                     },4000);
+
+                    store.commit("updateGamemap",data.gamemap);
                 }
             }
             socket.onclose = ()=>{
@@ -57,6 +59,7 @@ export default {
         });
         onUnmounted(()=>{
             socket.close();
+            store.commit("updateStatus","matching");
         });
 
         return{
