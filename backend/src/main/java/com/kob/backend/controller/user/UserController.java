@@ -35,6 +35,7 @@ public class UserController {
     public String addUser(@PathVariable int id,@PathVariable String username,@PathVariable String password)
     {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        System.out.println(passwordEncoder.encode("114514"));
         if(password.length() < 6) return "密码太短";
         password = passwordEncoder.encode(password);
         User user = new User(id,username,password);

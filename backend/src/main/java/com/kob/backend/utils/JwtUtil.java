@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -12,10 +13,12 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
+import static java.security.KeyRep.Type.SECRET;
+
 @Component
 public class JwtUtil {
     public static final long JWT_TTL = 60 * 60 * 1000L * 24 * 14;  // 有效期14天
-    public static final String JWT_KEY = "dSAKJdlkasjd14214mwaiochuidavbiuvaknjvaiulasjdalshdyiawwada";
+    public static final String JWT_KEY = "JSDFSDFSDFASJDHASDASDdfa32dJHASFDA67765asda123";
 
     public static String getUUID() {
         return UUID.randomUUID().toString().replaceAll("-", "");
