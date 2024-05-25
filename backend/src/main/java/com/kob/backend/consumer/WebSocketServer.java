@@ -1,5 +1,6 @@
 package com.kob.backend.consumer;
 
+import com.alibaba.fastjson.JSONObject;
 import com.kob.backend.consumer.utils.JwtAuthntication;
 import com.kob.backend.mapper.UserMapper;
 import com.kob.backend.pojo.User;
@@ -10,12 +11,15 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
 @ServerEndpoint("/websocket/{token}")
 public class WebSocketServer {
-
+    //线程安全，读多写少
+    final private static CopyOnWriteArrayList<User> matchpool = new CopyOnWriteArrayList<>();
     private static ConcurrentHashMap<Integer,WebSocketServer> users = new ConcurrentHashMap<>();
     private User user;
 
@@ -48,13 +52,51 @@ public class WebSocketServer {
         System.out.println("Disconnected");
         if(this.user != null){
             users.remove(this.user.getId());
+            matchpool.remove(this.user);
         }
     }
 
+    private void startMatching(){
+        System.out.println("start matching");
+        matchpool.add(this.user);
+        while(matchpool.size() >= 2){
+            Iterator<User> it = matchpool.iterator();
+            User a = it.next();
+            User b = it.next();
+            matchpool.remove(a);
+            matchpool.remove(b);
+
+            JSONObject respA = new JSONObject();
+            respA.put("event","match-success");
+            respA.put("opponent_username",b.getUsername());
+            respA.put("opponent_photo",b.getPhoto());
+            //users: a map from id to WebSocketServer
+            users.get(a.getId()).sendMessage(respA.toJSONString());
+
+            JSONObject respB = new JSONObject();
+            respB.put("event","match-success");
+            respB.put("opponent_username",a.getUsername());
+            respB.put("opponent_photo",a.getPhoto());
+            //users: a map from id to WebSocketServer
+            users.get(b.getId()).sendMessage(respB.toJSONString());
+        }
+    }
+    private void stopMatching(){
+        System.out.println("stop matching");
+        matchpool.remove(this.user);
+    }
     @OnMessage
     public void onMessage(String message, Session session) {
         // 从Client接收消息
-        System.out.println("Received: " + message);
+        JSONObject data = JSONObject.parseObject(message);
+        String event = data.getString("event");
+
+        //event:"start-matching","stop-matching"
+        if("start-matching".equals(event)) {
+            startMatching();
+        }else if ("stop-matching".equals(event)){
+            stopMatching();
+        }
     }
 
     @OnError

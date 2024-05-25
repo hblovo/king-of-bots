@@ -33,6 +33,7 @@ export default ({
             data:{
               username : data.username,
               password : data.password,
+              photo : data.photo,
             },
             success(resp){
                 if(resp.error_message === "success"){
