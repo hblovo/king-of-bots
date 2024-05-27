@@ -1,21 +1,53 @@
 package com.kob.backend.consumer.utils;
 
+import com.alibaba.fastjson.JSONObject;
+import com.kob.backend.consumer.WebSocketServer;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Random;
+import java.util.concurrent.locks.ReentrantLock;
 
-public class Game {
+public class Game extends Thread{
     private Integer rows;
     private Integer cols;
     private Integer inner_walls_count;
     @Getter
     private int[][] g;
     final private static int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};
-    public Game(Integer rows,Integer cols,Integer inner_walls_count){
+    @Getter
+    final private Player playerA,playerB;
+    private Integer nextStepA = null;
+    private Integer nextStepB = null;
+    private ReentrantLock lock = new ReentrantLock();
+    private String status = "playing";//or finished
+    private String loser = "";//all:平局 A:A输了 B:B输了
+    public Game(Integer rows,Integer cols,Integer inner_walls_count,Integer idA,Integer idB){
         this.rows = rows;
         this.cols = cols;
         this.inner_walls_count = inner_walls_count;
         this.g = new int[rows][cols];
+        playerA = new Player(idA,rows-2,1,new ArrayList<>());
+        playerB = new Player(idB,1,cols-2,new ArrayList<>());
+
+    }
+    public void setNextStepA(Integer nextStepA){
+        lock.lock();
+        try{
+            this.nextStepA = nextStepA;
+        }finally {
+            lock.unlock();
+        }
+    }
+    public void setNextStepB(Integer nextStepB){
+        lock.lock();
+        try{
+            this.nextStepB = nextStepB;
+        }finally {
+            lock.unlock();
+        }
     }
     private boolean check_connectivity(int sx, int sy, int tx, int ty) {
         if (sx == tx && sy == ty) return true;
@@ -69,5 +101,115 @@ public class Game {
             if(draw())
                 break;
         }
+    }
+
+    //等待玩家的下一步操作
+    private boolean nextStep(){
+        try{
+            Thread.sleep(200);
+        }catch(InterruptedException e){
+            throw new RuntimeException(e);
+        }
+
+        for(int i = 0;i<80;i++){
+            try {
+                Thread.sleep(100);
+                lock.lock();
+                try{
+                    if(nextStepA != null && nextStepB != null){
+                        playerA.getSteps().add(nextStepA);
+                        playerB.getSteps().add(nextStepB);
+                        return true;
+                    }
+                }finally {
+                    lock.unlock();
+                }
+            }catch (InterruptedException e){
+                throw new RuntimeException(e);
+            }
+        }
+        return false;
+    }
+    private boolean check_valid(List<Cell> cellsA,List<Cell> cellsB){
+        int n = cellsA.size();
+        Cell cell = cellsA.get(n-1);
+        if(g[cell.x][cell.y] == 1) return false;
+
+        for(int i = 0;i < n - 1;i++){
+            if(Objects.equals(cellsA.get(i).x, cell.x) && Objects.equals(cellsA.get(i).y, cell.y)) return false;
+        }
+        for(int i = 0;i < n - 1;i++){
+            if(Objects.equals(cellsB.get(i).x, cell.x) && Objects.equals(cellsB.get(i).y, cell.y)) return false;
+        }
+        return true;
+    }
+    private void judge(){//判断两名玩家输入是否合法
+        List<Cell> cellsA = playerA.getCells();
+        List<Cell> cellsB = playerB.getCells();
+        boolean validA = check_valid(cellsA,cellsB);
+        boolean validB = check_valid(cellsB,cellsA);
+        if(!validA || !validB) {
+            status = "finished";
+            if(!validA && !validB) {
+                loser = "all";
+            }
+            if(!validA) loser = "A";
+            else if(!validB) loser = "B";
+        }
+    }
+    private void sendAllMessage(String message){
+        WebSocketServer.users.get(playerA.getId()).sendMessage(message);
+        WebSocketServer.users.get(playerB.getId()).sendMessage(message);
+    }
+    private void sendResult(){
+        JSONObject resp = new JSONObject();
+        resp.put("event","result");
+        resp.put("loser",loser);
+        sendAllMessage(resp.toJSONString());
+    }
+    private void sendMove(){
+        lock.lock();
+        try{
+            JSONObject resp = new JSONObject();
+            resp.put("event","move");
+            resp.put("a_direction",nextStepA);
+            resp.put("b_direction",nextStepB);
+            sendAllMessage(resp.toJSONString());
+            nextStepA = nextStepB = null;
+
+        }finally {
+            lock.unlock();
+        }
+    }
+    @Override
+    public void run() {
+        for(int i = 0;i<1000;i++){
+            if(nextStep()){
+                judge();
+                if(status.equals("playing")){
+                    sendMove();
+                }else{
+                    sendResult();
+                    break;
+                }
+            }else{
+                status = "finished";
+                lock.lock();
+                try{
+                    if(nextStepA == null && nextStepB == null) {
+                        loser = "all";
+                    } else if (nextStepA == null) {
+                        loser = "A";
+                    } else if (nextStepB == null) {
+                        loser = "B";
+                    }
+                }finally {
+                    lock.unlock();
+                }
+                sendResult();
+                break;
+            }
+        }
+        super.run();
     }
 }
