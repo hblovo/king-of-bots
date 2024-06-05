@@ -3,6 +3,7 @@ package com.kob.backend.consumer;
 import com.alibaba.fastjson.JSONObject;
 import com.kob.backend.consumer.utils.Game;
 import com.kob.backend.consumer.utils.JwtAuthntication;
+import com.kob.backend.mapper.RecordMapper;
 import com.kob.backend.mapper.UserMapper;
 import com.kob.backend.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,14 @@ public class WebSocketServer {
 
     private static UserMapper userMapper;
     private Game game = null;
-
+    public static RecordMapper recordMapper;
     @Autowired
     public void setUserMapper(UserMapper userMapper){
         WebSocketServer.userMapper = userMapper;
+    }
+    @Autowired
+    public void setRecordMapper(RecordMapper recordMapper){
+        WebSocketServer.recordMapper = recordMapper;
     }
     @OnOpen
     public void onOpen(Session session, @PathParam("token") String token) throws IOException {
@@ -58,7 +63,11 @@ public class WebSocketServer {
             matchpool.remove(this.user);
         }
     }
-
+    private void startGame(Integer aId,Integer bId){
+        User a = userMapper.selectById(aId);
+        User b = userMapper.selectById(bId);
+        
+    }
     private void startMatching(){
         System.out.println("start matching");
         matchpool.add(this.user);
