@@ -1,6 +1,6 @@
-package com.kob.matchingsystem;
+package com.kob.botrunningsystem;
 
-import com.kob.matchingsystem.service.impl.MatchingServiceImpl;
+import com.kob.botrunningsystem.service.impl.MatchingServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

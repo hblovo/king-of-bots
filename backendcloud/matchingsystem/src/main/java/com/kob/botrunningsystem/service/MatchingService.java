@@ -1,4 +1,4 @@
-package com.kob.matchingsystem.service;
+package com.kob.botrunningsystem.service;
 
 public interface MatchingService {
     String addPlayer(Integer userId, Integer rating);

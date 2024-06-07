@@ -156,6 +156,9 @@ public class Game extends Thread{
         }
     }
     private void sendAllMessage(String message){
+        if (WebSocketServer.users.get(playerA.getId()) == null || WebSocketServer.users.get(playerB.getId()) == null) {
+            return;
+        }
         WebSocketServer.users.get(playerA.getId()).sendMessage(message);
         WebSocketServer.users.get(playerB.getId()).sendMessage(message);
     }

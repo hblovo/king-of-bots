@@ -78,8 +78,10 @@ public class WebSocketServer {
         Game game = new Game(13,17,20,a.getId(),b.getId());
         game.createMap();
         game.start();
-        users.get(a.getId()).game = game;
-        users.get(b.getId()).game = game;
+        if(users.get(a.getId()) != null)
+            users.get(a.getId()).game = game;
+        if(users.get(b.getId()) != null)
+            users.get(b.getId()).game = game;
         JSONObject respGame = new JSONObject();
         respGame.put("a_id",game.getPlayerA().getId());
         respGame.put("a_sx",game.getPlayerA().getSx());

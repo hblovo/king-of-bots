@@ -112,7 +112,7 @@
 //}
 
 
-package com.kob.matchingsystem.service.impl.utils;
+package com.kob.botrunningsystem.service.impl.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

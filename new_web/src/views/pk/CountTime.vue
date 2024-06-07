@@ -32,14 +32,12 @@
       closeModal() {
         this.showModal = false;
         this.$emit('countdown-finished');
-        //销毁该Modal组件
-        this.$destroy();
       }
     }
   };
   </script>
   
-  <style scoped>
+  <style>
   .modal-overlay {
     position: fixed;
     top: 0;

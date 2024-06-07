@@ -8,10 +8,5 @@
 
 > https://cloud.tencent.com/developer/article/2299322 @Autowired 注解
 
-$$
-\frac{n_0}{2}, & \text{if } |f| < f_H \\
-0, & \text{其他}
-\end{cases} \}
-求噪声功率 \(P_0\)
-$$
+
 

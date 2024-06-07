@@ -95,7 +95,7 @@
                                         </button>
                                         <!-- Modal update-->
                                             <div class="modal fade" :id="'update-bot-modal-' + bot.id" tabindex="-1">
-                                                <div class="modal-dialog modal-xl">
+                                                <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h1 class="modal-title fs-5 w-100 text-center" id="addBotLabel">
@@ -337,4 +337,13 @@ export default {
 div.error-message{
     color:red;
 }
+.modal-dialog {
+    max-width: 850px;
+    margin: 2rem auto;
+}
+.modal-dialog {
+        /* 居中 */
+        display: flex;
+        margin-left: 650px;
+    }
 </style>
