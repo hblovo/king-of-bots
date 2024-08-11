@@ -1,7 +1,7 @@
 <template>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/" style="font-family: 'Brush Script MT', cursive;">King Of SB</a>
+            <a class="navbar-brand" href="/" style="font-family: 'Brush Script MT', cursive;">King Of Bots</a>
             <router-link class="navbar-brand" :to="{name : 'home'}"></router-link>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">

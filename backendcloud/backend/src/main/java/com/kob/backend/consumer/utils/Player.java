@@ -12,6 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Player {
     private Integer id;
+    private Integer bot_id;//-1表示人工操作,否则为AI
+    private String botCode;
     //起始坐标
     private Integer sx;
     private Integer sy;
