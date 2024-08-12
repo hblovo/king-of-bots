@@ -52,7 +52,7 @@ export default {
                     showCountTime.value = true;
                     setTimeout(()=>{
                         store.commit("updateStatus","playing");
-                    },4000);
+                    },200);
                     store.commit("updateGame",data.game);
                 }else if(data.event === "move"){
                     const game = store.state.pk.gameObject;

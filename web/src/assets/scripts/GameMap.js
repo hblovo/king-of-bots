@@ -9,7 +9,7 @@ export class GameMap extends GameObject{
         this.parent = parent;
 
         this.rows = 13;
-        this.cols = 17;
+        this.cols = 14;
         this.store = store;
         this.L = 0;
         this.inner_walls = 20;
